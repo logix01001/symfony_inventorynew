@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PagesController!{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            {{ form( form ) }}
+            <a href=" {{ path('index') }}">Cancel</a>
+        </div>
+    </div>
+{% endblock %}
