@@ -33,12 +33,10 @@ class PagesController extends AbstractController
         $form->handleRequest($request);
         
         if($form->isSubmitted() && $form->isValid()){
-            
             $products = $this->getDoctrine()
                         ->getRepository(Product::class)
-                        ->searchProductCategory($form->get('search')->getData())    
+                        ->searchProductCategory( $form->get('search')->getData() )    
             ;
-           
         }
         return $this->render('pages/index.html.twig', [
             'controller_name' => 'PagesController',

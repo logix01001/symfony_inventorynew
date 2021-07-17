@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Product;
 use App\RedirectMain;
+use App\Entity\Product;
 use App\Form\ProductFormType;
+use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,16 +24,20 @@ class ProductController extends AbstractController
     /**
      * @Route("/",name="product.show")
      */
-    public function show(Request $request): Response
+    public function show(Request $request,  ProductRepository $product): Response
     {
 
         if($request->get('id')){
             $id = $request->get('id');
-            $product = $this->getDoctrine()
-                        ->getManager()
-                        ->getRepository(Product::class)
-                        ->find( $id )
-                        ;
+
+            // $product = $this->getDoctrine()
+            //             ->getManager()
+            //             ->getRepository(Product::class)
+            //             ->find( $id )
+            //             ;
+
+
+            $product =  $product->find($id);
             $form = $this->createForm(
                 ProductFormType::class,
                 $product,
@@ -91,10 +96,11 @@ class ProductController extends AbstractController
     /**
      * @Route("/update/{id}",name="product.update", methods={"PUT"})
      */
-    public function update(int $id,Request $request)
+    public function update(int $id,Request $request,  ProductRepository $product)
     {
         $em = $this->getDoctrine()->getManager();
-        $product = $em->getRepository(Product::class)->find($id);
+        // $product = $em->getRepository(Product::class)->find($id);
+        $product = $product->find($id);
 
         $form = $this->createForm(
                     ProductFormType::class,
@@ -123,11 +129,11 @@ class ProductController extends AbstractController
     /**
      * @Route("/delete/{id}",name="product.delete", methods={"DELETE"})
      */
-    public function destroy(int $id)
+    public function destroy(int $id,ProductRepository $product)
     {
         $em = $this->getDoctrine()->getManager();
-        $product = $em->getRepository(Product::class)->find($id);
-
+        //$product = $em->getRepository(Product::class)->find($id);
+        $product = $product->find($id);
 
         if($product != null){
             $name = $product->getName();

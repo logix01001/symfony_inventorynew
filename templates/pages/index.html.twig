@@ -41,7 +41,7 @@
                         <td>{{ product.getCategory().getName()}}</td>
                         <td>
                             <a href="{{ path('product.show',{'id' : product.getId() }) }}"><button class="btn btn-warning">Edit</button></a>
-                            <button class="btn btn-danger delete"  data-action="{{ path('product.delete', {'id': product.getId() }) }}">Edit</button>
+                            <button class="btn btn-danger delete"  data-action="{{ path('product.delete', {'id': product.getId() }) }}">Delete</button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -63,7 +63,7 @@
                             <td>{{ category.getName() }}</td>
                             <td>
                                 <a href="{{ path('category.show', { 'id' : category.getId() }) }}"> <button class="btn btn-warning">Edit</button></a>
-                                <button class="btn btn-warning deleteCategory" data-action="{{ path('category.delete', { 'id' : category.getId() }) }}">Delete</button>
+                                <button class="btn btn-danger deleteCategory" data-action="{{ path('category.delete', { 'id' : category.getId() }) }}">Delete</button>
                             </td>
                         </tr>
                     {% endfor %}

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryFormType;
 use App\RedirectMain;
+use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,13 +22,16 @@ class CategoryController extends AbstractController
     /**
      * @Route("/", name="category.show")
      */
-    public function show(Request $request): Response
+    public function show(Request $request, CategoryRepository $category): Response
     {
         if($request->get('id')){
 
             $id = $request->get('id');
-            $em = $this->getDoctrine()->getManager();
-            $category = $em->getRepository(Category::class)->find($id);
+
+            //$em = $this->getDoctrine()->getManager();
+            //$category = $em->getRepository(Category::class)->find($id);
+
+            $category = $category->find($id);
             
             $form = $this->createForm(
                 CategoryFormType::class,
@@ -88,10 +92,12 @@ class CategoryController extends AbstractController
     /**
      * @Route("/update/{id}", name="category.update")
      */
-    public function update(int $id ,Request $request)
+    public function update(int $id ,Request $request, CategoryRepository $category)
     {
         $em = $this->getDoctrine()->getManager();
-        $category = $em->getRepository( Category::class )->find($id);
+        //$category = $em->getRepository( Category::class )->find($id);
+        $category = $category->find($id);
+
 
         $form = $this->createForm(CategoryFormType::class, $category , ['method' => 'PUT']);
         $form->handleRequest($request);
@@ -115,11 +121,12 @@ class CategoryController extends AbstractController
     /**
      * @Route("/delete/{id}", name="category.delete")
      */
-    public function destroy(int $id ,Request $request)
+    public function destroy(int $id ,Request $request, CategoryRepository $category)
     {
         $em = $this->getDoctrine()->getManager();
-        $category = $em->getRepository( Category::class )->find($id);
-
+        //$category = $em->getRepository( Category::class )->find($id);
+        $category  = $category->find($id);
+        
         if( $category != null){
             $name = $category->getName();
          
